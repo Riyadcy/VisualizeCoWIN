@@ -1,0 +1,146 @@
+.slot-checker-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /*margin: 20px 5% 20px 5%;*/
+}
+
+.slot-checker {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+    overflow: auto;
+    margin: 20px 5% 20px 5%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;;
+}
+
+.header {
+    font-family: "Inter", sans-serif;
+    font-size: 2.2rem;
+    margin: 10px 10px 20px 20px;
+}
+
+.slot-toolbar-container {
+    margin: 0 20px;
+}
+
+.slot-toolbar {
+    display: flex;
+    flex-direction: row;
+    margin: 0 -5px;
+}
+
+.slot-toolbar-item {
+    margin: 0 5px;
+}
+
+.selector {
+    /*margin-left: 25px;*/
+    /*max-height: 200px;*/
+}
+
+.search {
+    flex-grow: 1;
+    max-width: 400px;
+    margin: 0 15px;
+}
+
+.fee-types-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 30px;
+    justify-content: center;
+}
+
+.fee-types {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    margin: 0 -5px;
+}
+
+.fee-type-checkbox {
+    margin: 0 5px !important;
+    align-self: center;
+}
+
+.selector-popover {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.centers {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /*width: 100%;*/
+    overflow: auto;
+    /*margin-top: 40px;*/
+    border: #4f7dc7 solid 1px;
+    /*margin-bottom: 20px;*/
+    margin: 20px 20px 20px 20px;
+}
+
+.centers-loading-spinner {
+    display: flex;
+    flex-grow: 1;
+    align-self: center;
+    height: 100%;
+}
+
+.center {
+    /*min-height: 100px;*/
+    margin: 10px 20px;
+    display: flex;
+    max-width: 100%;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px, rgba(0, 0, 0, 0.24) 0 1px 2px;
+}
+
+.center-info-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.center-info {
+    margin-left: 5px;
+}
+
+.center-name {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+}
+
+.center-fee-type-tag {
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    background-color: #4f7dc7;
+    color: white;
+}
+
+.center-fee-type {
+    margin: 5px 5px 5px 5px;
+}
+
+.sessions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.session {
+    margin-left: 3px;
+    margin-top: 3px;
+}
+
+.session-info {
+    margin-left: 3px;
+}
