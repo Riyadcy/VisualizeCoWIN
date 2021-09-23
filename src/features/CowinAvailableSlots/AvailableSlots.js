@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    fetchCalendarByDistrict,
     selectAllDistricts,
     selectFilteredCalendarByDistrict,
     selectKeywordFilter,
@@ -11,6 +12,7 @@ import { CenterCard } from "./Center";
 import { DistrictSelector, StateSelector } from "./Selectors";
 import { Button, Intent, NonIdealState, Spinner, TagInput} from "@blueprintjs/core";
 import { FeeTypeFilters } from "./Filters";
+import {formatDate} from "../../utils/DateUtilities";
 
 /*
 * A component which shows the Available Slots (active slots returned by CoWIN API)
@@ -83,6 +85,16 @@ export function AvailableSlots() {
         />
     );
 
+    // Refresh button to refresh the data, doesn't reset filters
+    const refreshData = () => {
+        if (selectedDistrict.district_name === "Select a district" || selectedState.state_name === "Select a state") {
+            return
+        }
+        let date = new Date();
+        date = formatDate(date, '-');
+        dispatch(fetchCalendarByDistrict({districtId: selectedDistrict.district_id, date: date}));
+    }
+
     return (
         <div className="slot-checker-container">
             <div className="slot-checker">
@@ -111,6 +123,9 @@ export function AvailableSlots() {
                         />
                         <div className="slot-toolbar-item fee-types-container">
                             <FeeTypeFilters />
+                        </div>
+                        <div className="slot-toolbar-item refresh-button">
+                            <Button rightIcon={"refresh"} onClick={refreshData}/>
                         </div>
                     </div>
                 </div>

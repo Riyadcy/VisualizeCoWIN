@@ -35,6 +35,10 @@
     margin: 0 5px;
 }
 
+.slot-toolbar-item:last-of-type {
+    margin-left: auto;
+}
+
 .selector {
     /*margin-left: 25px;*/
     /*max-height: 200px;*/
@@ -64,6 +68,11 @@
 .fee-type-checkbox {
     margin: 0 5px !important;
     align-self: center;
+}
+
+.refresh-button {
+    display: flex;
+    align-self: flex-end;
 }
 
 .selector-popover {
