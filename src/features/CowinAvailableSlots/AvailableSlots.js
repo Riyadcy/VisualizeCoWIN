@@ -124,7 +124,7 @@ export function AvailableSlots() {
                         <div className="slot-toolbar-item fee-types-container">
                             <FeeTypeFilters />
                         </div>
-                        <div className="slot-toolbar-item refresh-button">
+                        <div className="slot-toolbar-item">
                             <Button rightIcon={"refresh"} onClick={refreshData}/>
                         </div>
                     </div>

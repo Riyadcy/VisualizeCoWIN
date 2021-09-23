@@ -70,11 +70,6 @@
     align-self: center;
 }
 
-.refresh-button {
-    display: flex;
-    align-self: flex-end;
-}
-
 .selector-popover {
     max-height: 300px;
     overflow: auto;
@@ -152,4 +147,8 @@
 
 .session-info {
     margin-left: 3px;
+}
+
+.fee-type {
+    margin: 0 4px;
 }
