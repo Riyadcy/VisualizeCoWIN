@@ -1,3 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-route {
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+
+.navigation-header {
+    font-family: 'Inter';
+}
 

@@ -1,7 +1,7 @@
 .slot-checker-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     /*margin: 20px 5% 20px 5%;*/
 }
 
@@ -35,7 +35,7 @@
     margin: 0 5px;
 }
 
-.slot-toolbar-item:last-of-type {
+.slot-toolbar-item:nth-last-child(2) {
     margin-left: auto;
 }
 

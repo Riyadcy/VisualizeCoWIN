@@ -116,7 +116,7 @@ export function AvailableSlots() {
                         <TagInput
                             className="slot-toolbar-item search"
                             leftIcon={"search"}
-                            placeholder={"You can search with multiple keywords.."}
+                            placeholder={"Search with multiple keywords.."}
                             onChange={(values => dispatch(setKeywordFilter(values)))}
                             values={searchInputValues}
                             rightElement={clearButton}
@@ -125,7 +125,10 @@ export function AvailableSlots() {
                             <FeeTypeFilters />
                         </div>
                         <div className="slot-toolbar-item">
-                            <Button rightIcon={"refresh"} onClick={refreshData}/>
+                            <Button icon={"refresh"} text={"Refresh"} onClick={refreshData}/>
+                        </div>
+                        <div className="slot-toolbar-item">
+                            <Button icon={"settings"} text={"Settings"} />
                         </div>
                     </div>
                 </div>

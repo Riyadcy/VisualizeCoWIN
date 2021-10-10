@@ -40,24 +40,24 @@ function CenterCard(props) {
                 <span className="center-info">{center.block_name}</span>
             </div>
             <div className="sessions">
-                {/*<table className="bp4-html-table bp4-html-table-bordered bp4-html-table-condensed bp4-interactive">*/}
-                {/*    <thead>*/}
-                {/*    <th>Date</th>*/}
-                {/*    <th>Vaccine</th>*/}
-                {/*    <th>Dose 1</th>*/}
-                {/*    <th>Dose 2</th>*/}
-                {/*    <th>Min. Age</th>*/}
-                {/*    <th>Max. Age</th>*/}
-                {/*    </thead>*/}
-                {/*    <tbody>*/}
-                {/*    {center.sessions && center.sessions.map((session, id) => (*/}
-                {/*        <Session key={id} session={session} />*/}
-                {/*    ))}*/}
-                {/*    </tbody>*/}
-                {/*</table>*/}
-                {center.sessions && center.sessions.map((session, id) => (
-                    <Session key={id} session={session} />
-                ))}
+                <table className="bp4-html-table bp4-html-table-bordered bp4-html-table-condensed bp4-interactive">
+                    <thead>
+                    <th>Date</th>
+                    <th>Vaccine</th>
+                    <th>Dose 1</th>
+                    <th>Dose 2</th>
+                    <th>Min. Age</th>
+                    <th>Max. Age</th>
+                    </thead>
+                    <tbody>
+                    {center.sessions && center.sessions.map((session, id) => (
+                        <Session key={id} session={session} />
+                    ))}
+                    </tbody>
+                </table>
+                {/*{center.sessions && center.sessions.map((session, id) => (*/}
+                {/*    <Session key={id} session={session} />*/}
+                {/*))}*/}
             </div>
         </div>
     )
