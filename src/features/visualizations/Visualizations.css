@@ -1,0 +1,17 @@
+
+.visualizations-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.visualization-cards {
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+    margin: 2%;
+}
+
+.visualization-card {
+    background-color: #008075;
+}

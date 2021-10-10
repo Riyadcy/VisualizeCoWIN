@@ -4,6 +4,7 @@ import {AvailableSlots} from "./features/CowinAvailableSlots/AvailableSlots";
 import {BrowserRouter, Link, NavLink, Route, Switch} from "react-router-dom";
 import {Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
 import {Home} from "./features/home/Home";
+import {Visualizations} from "./features/visualizations/Visualizations";
 
 function App() {
     const [themeButton, setThemeButton] = useState({name: "Dark Theme", icon: "moon"});
@@ -51,7 +52,7 @@ function App() {
                         <AvailableSlots />
                     </Route>
                     <Route path="/visualize">
-                        <div style={{margin: 20}}>Setup visualizations</div>
+                        <Visualizations />
                     </Route>
                     <Route path="/">
                         <Home />
