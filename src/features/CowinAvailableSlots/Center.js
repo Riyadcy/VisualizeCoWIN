@@ -1,4 +1,4 @@
-import {Intent, Tag} from "@blueprintjs/core";
+import { Intent, Tag} from "@blueprintjs/core";
 import React from "react";
 import Session from "./Session";
 
@@ -20,7 +20,7 @@ function CenterCard(props) {
     const { center } = props;
 
     return (
-        <div key={center.center_id} className="center">
+        <div key={center.center_id} className="center bp4-elevation-1">
             <div className="center-info-container">
                 <span className="center-info center-name">{center.name}</span>
                 <Tag className="center-info fee-type" intent={feeType[center.fee_type]}>

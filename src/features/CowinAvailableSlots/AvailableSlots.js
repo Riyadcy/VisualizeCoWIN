@@ -96,7 +96,7 @@ export function AvailableSlots() {
     }
 
     return (
-        <div className="slot-checker-container">
+        <div className="slot-checker-container  bp4-card">
             <div className="slot-checker">
                 <div className="header">
                     Available Slots

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.app {
+#app {
     display: flex;
     flex-direction: column;
     height: 100vh;
