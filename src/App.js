@@ -2,9 +2,12 @@ import './App.css';
 import React, {useState} from 'react';
 import {AvailableSlots} from "./features/CowinAvailableSlots/AvailableSlots";
 import {BrowserRouter, Link, NavLink, Route, Switch} from "react-router-dom";
-import {Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
+import {FocusStyleManager, Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
 import {Home} from "./features/home/Home";
 import {Visualizations} from "./features/visualizations/Visualizations";
+
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 function App() {
     const [themeButton, setThemeButton] = useState({name: "Dark Theme", icon: "moon"});
@@ -30,8 +33,8 @@ function App() {
                     <NavLink to="/">
                         <Button className={Classes.MINIMAL} icon="home" text="Home"/>
                     </NavLink>
-                    <Link to="/visualize">
-                        <Button className={Classes.MINIMAL} icon="chart" text="Visualizations" />
+                    <Link to="/dashboard">
+                        <Button className={Classes.MINIMAL} icon="chart" text="Dashboard" />
                     </Link>
                     <Link to="/availability">
                         <Button className={Classes.MINIMAL} icon="confirm" text="CoWIN Slot Checker" />
@@ -51,7 +54,7 @@ function App() {
                     <Route path="/availability">
                         <AvailableSlots />
                     </Route>
-                    <Route path="/visualize">
+                    <Route path="/dashboard">
                         <Visualizations />
                     </Route>
                     <Route path="/">

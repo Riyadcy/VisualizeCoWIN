@@ -5,13 +5,53 @@
     height: 100%;
 }
 
+.visualization-hero {
+    background-color: #137CBD;
+    min-height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.visualization-hero .hero-content {
+    margin: 20px 100px;
+    color: #ffffff !important;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.visualization-hero .hero-header {
+    font-family: Inter;
+    font-size: 3rem;
+    align-self: center;
+}
+
+.vaccine-counter-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex-grow: 1;
+    align-items: flex-end;
+}
+
+.vaccine-counter {
+    font-family: Inter;
+    /*font-size: 3rem;*/
+}
+
 .visualization-cards {
     display: flex;
     flex-direction: row;
-    height: 20%;
+    /*height: 20%;*/
     margin: 2%;
 }
 
 .visualization-card {
-    background-color: #008075;
+    margin: 0 10px;
+    min-width: 320px;
+}
+
+.total-vax-count {
+    color: #30A660 !important;
 }
