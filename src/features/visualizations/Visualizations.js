@@ -31,13 +31,13 @@ export function Visualizations() {
         }
     }, [vaxLiveCountFetchStatus, dispatch])
 
-    useEffect(() => {
-        const timer = setTimeout(
-            () => dispatch(fetchVaxLiveCount()),
-            5000
-        );
-        return () => clearTimeout(timer);
-    })
+    // useEffect(() => {
+    //     const timer = setTimeout(
+    //         () => dispatch(fetchVaxLiveCount()),
+    //         5000
+    //     );
+    //     return () => clearTimeout(timer);
+    // })
 
     useEffect(() => {
         if (vaxStatsFetchStatus === "idle") {
