@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     fetchCalendarByDistrict,
@@ -9,9 +9,12 @@ import {
 import "./AvailableSlots.css";
 import { CenterCard } from "./Center";
 import { DistrictSelector, StateSelector } from "./Selectors";
-import { Button, Intent, NonIdealState, Spinner, TagInput} from "@blueprintjs/core";
+import {Button, Intent, NonIdealState, Spinner, TagInput} from "@blueprintjs/core";
 import { FeeTypeFilters } from "./Filters";
 import {formatDate} from "../../utils/DateUtilities";
+// import {resetSettings} from "../settings/settingsSlice";
+import Settings from "../settings/Settings";
+// import {fetchVaxLiveCount} from "../mygov/myGovSlice";
 
 /*
 * A component which shows the Available Slots (active slots returned by CoWIN API)
@@ -27,6 +30,31 @@ export function AvailableSlots() {
     const selectedState = useSelector(selectSelectedState);
     const selectedDistrict = useSelector(selectSelectedDistrict);
     const searchInputValues = useSelector(selectKeywordFilter);
+    const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const autoRefresh = useSelector(state => state.settings.calendarByDistrictAutoRefresh);
+    const autoRefreshInterval = useSelector(state => state.settings.calendarByDistrictAutoRefreshInterval);
+
+    // Refresh button to refresh the data, doesn't reset filters
+    const refreshData = () => {
+        if (selectedDistrict.districtName === "Select a District" || selectedState.stateName === "Select a State") {
+            return
+        }
+        let date = new Date();
+        date = formatDate(date, '-');
+        dispatch(fetchCalendarByDistrict({districtId: selectedDistrict.districtId, date: date}));
+    }
+
+    let timer;
+    useEffect(() => {
+        if (autoRefresh) {
+            timer = setTimeout(() => {
+                    refreshData();
+                    // console.log("refreshing data", new Date().toLocaleTimeString(), {districtName: selectedDistrict.districtName});
+                },
+                autoRefreshInterval);
+            return () => clearTimeout(timer);
+        }
+    })
 
     /*
     * Decide what {content} to load in the "centers" div.
@@ -80,14 +108,8 @@ export function AvailableSlots() {
         />
     );
 
-    // Refresh button to refresh the data, doesn't reset filters
-    const refreshData = () => {
-        if (selectedDistrict.districtName === "Select a District" || selectedState.stateName === "Select a State") {
-            return
-        }
-        let date = new Date();
-        date = formatDate(date, '-');
-        dispatch(fetchCalendarByDistrict({districtId: selectedDistrict.districtId, date: date}));
+    const toggleSettings = () => {
+        setSettingsOpen(!isSettingsOpen);
     }
 
     return (
@@ -115,7 +137,7 @@ export function AvailableSlots() {
                             <Button icon={"refresh"} text={"Refresh"} onClick={refreshData}/>
                         </div>
                         <div className="slot-toolbar-item">
-                            <Button icon={"settings"} text={"Settings"} />
+                            <Button icon={"settings"} text={"Settings"} onClick={toggleSettings}/>
                         </div>
                     </div>
                 </div>
@@ -123,6 +145,7 @@ export function AvailableSlots() {
                     {content}
                 </div>
             </div>
+            <Settings isOpen={isSettingsOpen} setIsOpen={setSettingsOpen}/>
         </div>
     )
 }

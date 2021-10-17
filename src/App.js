@@ -1,16 +1,20 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AvailableSlots} from "./features/CowinAvailableSlots/AvailableSlots";
 import {BrowserRouter, Link, NavLink, Route, Switch} from "react-router-dom";
 import {FocusStyleManager, Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
 import {Home} from "./features/home/Home";
 import {Visualizations} from "./features/visualizations/Visualizations";
+import {resetSettings} from "./features/settings/settingsSlice";
+import {useDispatch} from "react-redux";
 
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
 function App() {
+    const dispatch = useDispatch();
     const [themeButton, setThemeButton] = useState({name: "Dark Theme", icon: "moon"});
+    const initializeSettings = !localStorage.getItem('SETTINGS')
 
     const switchTheme = () => {
         const div = document.getElementById("app");
@@ -23,6 +27,14 @@ function App() {
             setThemeButton({name: "Light Theme", icon: "flash"});
         }
     }
+
+    useEffect(() => {
+        if (initializeSettings) {
+            console.log("Resetting settings")
+            dispatch(resetSettings());
+        }
+    })
+
     return (
     <BrowserRouter>
         <div id="app">

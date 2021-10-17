@@ -1,6 +1,7 @@
-import { Intent, Tag} from "@blueprintjs/core";
+import { Intent, Tag } from "@blueprintjs/core";
 import React from "react";
-import Session from "./Session";
+import { SessionTable, SessionTags } from "./Session";
+import { useSelector } from "react-redux";
 
 /*
 * Defines the Blueprintjs Intent color to use with a particular fee type
@@ -18,6 +19,17 @@ const feeType = {
 * */
 function CenterCard(props) {
     const { center } = props;
+    const viewType = useSelector((state => state.settings.calendarByDistrictView));
+    // const viewTypeTable = viewType === "table";
+    // const viewTypeTags = viewType === "tags"
+
+    let content;
+    if (viewType === "table") {
+        content = <SessionTable sessions={center.sessions} />
+    }
+    else if (viewType === "tags") {
+        content = <SessionTags sessions={center.sessions} />
+    }
 
     return (
         <div key={center.center_id} className="center bp4-elevation-1">
@@ -40,24 +52,7 @@ function CenterCard(props) {
                 <span className="center-info">{center.block_name}</span>
             </div>
             <div className="sessions">
-                <table className="bp4-html-table bp4-html-table-bordered bp4-html-table-condensed bp4-interactive">
-                    <thead>
-                    <th>Date</th>
-                    <th>Vaccine</th>
-                    <th>Dose 1</th>
-                    <th>Dose 2</th>
-                    <th>Min. Age</th>
-                    <th>Max. Age</th>
-                    </thead>
-                    <tbody>
-                    {center.sessions && center.sessions.map((session, id) => (
-                        <Session key={id} session={session} />
-                    ))}
-                    </tbody>
-                </table>
-                {/*{center.sessions && center.sessions.map((session, id) => (*/}
-                {/*    <Session key={id} session={session} />*/}
-                {/*))}*/}
+                {content}
             </div>
         </div>
     )
