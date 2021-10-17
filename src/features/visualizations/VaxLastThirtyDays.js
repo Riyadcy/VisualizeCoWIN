@@ -1,6 +1,9 @@
 import React, {useEffect} from "react";
 import {formatDate} from "../../utils/DateUtilities";
-import {fetchVaccinationReports, selectVaxReportsLastThirtyDays} from "../Cowin/cowinSlice";
+import {
+    fetchVaccinationReports,
+    selectVaxReportsLastThirtyDays
+} from "../Cowin/cowinSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {Line} from "react-chartjs-2";
 import {H3} from "@blueprintjs/core";
@@ -21,14 +24,19 @@ export function VaxLastThirtyDays() {
     const dispatch = useDispatch();
     const vaxLastThirtyDaysReport = useSelector(selectVaxReportsLastThirtyDays);
     const vaccinationReportsFetchStatus = useSelector((state) => state.cowin.status.vaccinationReports);
+    // const publicReportsFetchStatus = useSelector((state) => state.cowin.status.publicReports);
 
     useEffect(() => {
         let date = new Date()
         date = formatDate(date, '-', 2);
         if (vaccinationReportsFetchStatus === "idle") {
-            dispatch(fetchVaccinationReports({date: date, districtId: '', stateId: ''}));
+            dispatch(fetchVaccinationReports({
+                date: date,
+                districtId: '',
+                stateId: ''
+            }));
         }
-    }, [vaccinationReportsFetchStatus, dispatch]);
+    }, [dispatch, vaccinationReportsFetchStatus]);
 
     let chartEl;
     if (vaccinationReportsFetchStatus === "succeeded") {
@@ -55,9 +63,10 @@ export function VaxLastThirtyDays() {
             ],
         };
         chartEl = <Line data={data} options={options} />
+
     }
-    else {
-        chartEl = <div>Loading...</div>
+    else if (vaccinationReportsFetchStatus === "pending") {
+        chartEl = <div>Loading..</div>
     }
 
     return (
@@ -67,3 +76,7 @@ export function VaxLastThirtyDays() {
         </div>
     )
 }
+
+const VaxThirtyDaysLineChart = React.memo(VaxLastThirtyDays);
+
+export { VaxThirtyDaysLineChart };

@@ -2,13 +2,22 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     fetchCalendarByDistrict,
+    fetchDistricts,
+    fetchStates,
+    resetCalendarByDistrictStore,
+    resetDistrictStore, selectAllDistricts,
+    selectAllStates,
     selectFilteredCalendarByDistrict,
-    selectKeywordFilter, selectSelectedDistrict, selectSelectedState,
-    setKeywordFilter
+    selectKeywordFilter,
+    selectSelectedDistrict,
+    selectSelectedState,
+    setKeywordFilter,
+    setSelectedDistrict,
+    setSelectedState
 } from "../Cowin/cowinSlice";
 import "./AvailableSlots.css";
 import { CenterCard } from "./Center";
-import { DistrictSelector, StateSelector } from "./Selectors";
+import {DistrictSelector2, StateSelector2} from "./Selectors";
 import {Button, Intent, NonIdealState, Spinner, TagInput} from "@blueprintjs/core";
 import { FeeTypeFilters } from "./Filters";
 import {formatDate} from "../../utils/DateUtilities";
@@ -26,6 +35,8 @@ export function AvailableSlots() {
     const dispatch = useDispatch();
     const calendarFetchStatus = useSelector((state) => state.cowin.status.calendarByDistrict);
     // Use the filtered calendarByDistrict data from the store
+    const states = useSelector(selectAllStates);
+    const districts = useSelector(selectAllDistricts);
     const centers = useSelector(selectFilteredCalendarByDistrict);
     const selectedState = useSelector(selectSelectedState);
     const selectedDistrict = useSelector(selectSelectedDistrict);
@@ -33,6 +44,7 @@ export function AvailableSlots() {
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const autoRefresh = useSelector(state => state.settings.calendarByDistrictAutoRefresh);
     const autoRefreshInterval = useSelector(state => state.settings.calendarByDistrictAutoRefreshInterval);
+    const statesFetchStatus = useSelector((state) => state.cowin.status.states);
 
     // Refresh button to refresh the data, doesn't reset filters
     const refreshData = () => {
@@ -112,6 +124,32 @@ export function AvailableSlots() {
         setSettingsOpen(!isSettingsOpen);
     }
 
+    // Fetch states for StateSelector when it mounts
+    useEffect(() => {
+        if (statesFetchStatus === "idle") {
+            dispatch(fetchStates());
+        }
+    }, [statesFetchStatus, dispatch]);
+
+    const handleStateChange = (state) => {
+        // TODO: Changed the dispatch order here
+        // Reset the current District and Center list by resetting the store
+        dispatch(resetDistrictStore());
+        dispatch(resetCalendarByDistrictStore());
+        dispatch(setSelectedState({stateId: state.state_id, stateName: state.state_name}));
+        // Fetch new districts for the new State
+        dispatch(fetchDistricts({stateId: state.state_id}));
+        // Reset the District selector value
+        dispatch(setSelectedDistrict({districtName: "Select a District"}))
+    }
+
+    const handleDistrictChange = (district) => {
+        dispatch(setSelectedDistrict({districtId: district.district_id, districtName: district.district_name}))
+        let date = new Date();
+        date = formatDate(date, '-');
+        dispatch(fetchCalendarByDistrict({districtId: district.district_id, date: date}));
+    }
+
     return (
         <div className="slot-checker-container  bp4-card">
             <div className="slot-checker">
@@ -120,8 +158,16 @@ export function AvailableSlots() {
                 </div>
                 <div className="slot-toolbar-container">
                     <div className="slot-toolbar">
-                        <StateSelector />
-                        <DistrictSelector />
+                        <StateSelector2
+                            states={states}
+                            selectedState={selectedState}
+                            setState={handleStateChange}
+                        />
+                        <DistrictSelector2
+                            districts={districts}
+                            selectedDistrict={selectedDistrict}
+                            setDistrict={handleDistrictChange}
+                        />
                         <TagInput
                             className="slot-toolbar-item search"
                             leftIcon={"search"}

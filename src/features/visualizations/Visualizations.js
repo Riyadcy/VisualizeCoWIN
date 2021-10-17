@@ -11,7 +11,11 @@ import {
 } from "../mygov/myGovSlice";
 import {H1, H2, H3, H4, H5, Intent, Tag} from "@blueprintjs/core";
 import FlipNumbers from 'react-flip-numbers';
-import {VaxLastThirtyDays} from "./VaxLastThirtyDays";
+import {VaxThirtyDaysLineChart} from "./VaxLastThirtyDays";
+import {VaccineDistributionPieChart} from "./VaccineDistribution";
+import {VaccinationStatesTable} from "./VaccinationStatesTable";
+import {formatDate} from "../../utils/DateUtilities";
+import {fetchPublicReports} from "../Cowin/cowinSlice";
 
 export function Visualizations() {
     const dispatch = useDispatch();
@@ -22,6 +26,7 @@ export function Visualizations() {
     const vaxStatsFetchStatus = useSelector((state) => state.myGov.status.VAX_STATS);
     const caseCounts = useSelector(selectCaseCounts);
     const caseCountsFetchStatus = useSelector((state) => state.myGov.status.CASE_COUNTS);
+    const publicReportsFetchStatus = useSelector(state => state.cowin.status.publicReports);
 
     useEffect(() => {
         if (vaxLiveCountFetchStatus === "idle") {
@@ -74,6 +79,18 @@ export function Visualizations() {
             dispatch(fetchCaseCounts({timestamp: ts}));
         }
     }, [caseCountsFetchStatus, dispatch])
+
+    useEffect(() => {
+        let date = new Date()
+        date = formatDate(date, '-', 2);
+        if (publicReportsFetchStatus === "idle") {
+            dispatch(fetchPublicReports({
+                date: date,
+                districtId: '',
+                stateId: ''
+            }));
+        }
+    }, [dispatch, publicReportsFetchStatus]);
 
     const getProps = (item) => {
         if (item < 0) {
@@ -153,7 +170,15 @@ export function Visualizations() {
                 {totalCaseCountEl}
             </div>
             <div className="charts">
-                <VaxLastThirtyDays />
+                <div id="chart-1" className="chart">
+                    <VaxThirtyDaysLineChart />
+                </div>
+                <div className="chart">
+                    <VaccineDistributionPieChart />
+                </div>
+                <div className="chart">
+                    <VaccinationStatesTable />
+                </div>
             </div>
         </div>
     )

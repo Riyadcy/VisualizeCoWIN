@@ -2,7 +2,7 @@
 .visualizations-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .visualization-hero {
@@ -22,7 +22,7 @@
 }
 
 .visualization-hero .hero-header {
-    font-family: Inter;
+    font-family: Inter, 'sans-serif';
     font-size: 3rem;
     align-self: center;
 }
@@ -36,7 +36,7 @@
 }
 
 .vaccine-counter {
-    font-family: Inter;
+    font-family: Inter, 'sans-serif';
     /*font-size: 3rem;*/
 }
 
@@ -58,9 +58,32 @@
 
 .charts {
     margin: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.chart-1 {
+#chart-1 {
     width: 80%;
-    height: 400px;
+    margin-bottom: 100px;
+    /*height: 400px;*/
+}
+
+.chart-2 {
+    width: 350px;
+    height: 350px;
+    margin: 0 50px 80px 50px;
+}
+
+.chart-horizontal-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chart-group-1 {
+    /*width: 80%;*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

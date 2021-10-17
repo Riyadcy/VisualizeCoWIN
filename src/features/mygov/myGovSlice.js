@@ -19,8 +19,10 @@ const initialState = {
 
 export const fetchVaxLiveCount = createAsyncThunk('myGov/vaxLiveCount',
     async () => {
+        // The other return statement can be used for testing chartjs re-render issue when API is down
         const response = await axios.get('https://cdn-api.co-vin.in/api/v1/reports/getLiveVaccination');
         return response.data.count;
+        // return Math.floor(100000 + Math.random() * 900000).toString();
     });
 
 export const fetchVaxStats = createAsyncThunk('myGov/vaxStats',

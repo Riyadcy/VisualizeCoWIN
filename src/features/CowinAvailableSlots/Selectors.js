@@ -1,21 +1,6 @@
-import {useDispatch, useSelector} from "react-redux";
-import {
-    fetchCalendarByDistrict,
-    fetchDistricts,
-    fetchStates,
-    resetCalendarByDistrictStore,
-    resetDistrictStore,
-    selectAllDistricts,
-    selectAllStates,
-    selectSelectedDistrict,
-    selectSelectedState,
-    setSelectedDistrict,
-    setSelectedState
-} from "../Cowin/cowinSlice";
 import {Button, MenuItem} from "@blueprintjs/core";
 import {Select} from "@blueprintjs/select";
-import React, {useEffect} from "react";
-import {formatDate} from "../../utils/DateUtilities";
+import React from "react";
 
 /*
 * Simple filtering function, extracted here so that it doesn't have to repeated in both
@@ -40,32 +25,22 @@ const filterList = (query, title, _index, exactMatch) => {
 *  differences through props.
 *
 * */
-const StateSelector = () => {
-    const selectedState = useSelector(selectSelectedState);
-    const dispatch = useDispatch();
-    const statesFetchStatus = useSelector((state) => state.cowin.status.states);
-    const states = useSelector(selectAllStates);
+const StateSelector = (props) => {
+    const { setState, selectedState, states } = props;
+    // const states = useSelector(selectAllStates);
 
-    // Fetch states for StateSelector when it mounts
-    useEffect(() => {
-        if (statesFetchStatus === "idle") {
-            dispatch(fetchStates());
-        }
-    }, [statesFetchStatus, dispatch]);
+    // // Fetch states for StateSelector when it mounts
+    // useEffect(() => {
+    //     if (statesFetchStatus === "idle") {
+    //         dispatch(fetchStates());
+    //     }
+    // }, [statesFetchStatus, dispatch]);
 
     const renderInputValue = (state) => state.state_name;
 
     // Handle State selector value change
     const handleValueChange = (state, _event) => {
-        // TODO: Changed the dispatch order here
-        // Reset the current District and Center list by resetting the store
-        dispatch(resetDistrictStore());
-        dispatch(resetCalendarByDistrictStore());
-        dispatch(setSelectedState({stateId: state.state_id, stateName: state.state_name}));
-        // Fetch new districts for the new State
-        dispatch(fetchDistricts({stateId: state.state_id}));
-        // Reset the District selector value
-        dispatch(setSelectedDistrict({districtName: "Select a District"}))
+        setState(state);
     }
 
     // Render a Blueprintjs Menu Item for every state
@@ -104,10 +79,9 @@ const StateSelector = () => {
 * provides a list of districts to filter and choose from.
 *
 * */
-const DistrictSelector = () => {
-    const dispatch = useDispatch();
-    const districts = useSelector(selectAllDistricts);
-    const selectedDistrict = useSelector(selectSelectedDistrict);
+const DistrictSelector = (props) => {
+    const { setDistrict, selectedDistrict, districts } = props;
+    // const districts = useSelector(selectAllDistricts);
 
     const renderDistrictInputValue = (district) => district.district_name;
 
@@ -117,13 +91,8 @@ const DistrictSelector = () => {
         )
     }
 
-    // Creates the Date string in required CoWIN API format (dd-mm-yy) using formatDate from DateUtilities, then
-    // dispatches the action to fetch the "calendar by district" using the district_id of the selected district.
     const districtSelected = (district, _event) => {
-        dispatch(setSelectedDistrict({districtId: district.district_id, districtName: district.district_name}))
-        let date = new Date();
-        date = formatDate(date, '-');
-        dispatch(fetchCalendarByDistrict({districtId: district.district_id, date: date}));
+        setDistrict(district);
     }
 
     // Called by the Blueprintjs Select component whenever the query has a new input keyword.
@@ -150,4 +119,7 @@ const DistrictSelector = () => {
     )
 }
 
-export { StateSelector, DistrictSelector };
+const StateSelector2 = React.memo(StateSelector);
+const DistrictSelector2 = React.memo(DistrictSelector);
+
+export { StateSelector, StateSelector2, DistrictSelector, DistrictSelector2};

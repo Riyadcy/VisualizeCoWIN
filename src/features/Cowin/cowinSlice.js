@@ -18,17 +18,20 @@ const initialState = {
         centers: []
     },
     vaccinationReports: {},
+    publicReports: {},
     status: {
         states: 'idle',
         districts: 'idle',
         calendarByDistrict: 'idle',
-        vaccinationReports: 'idle'
+        vaccinationReports: 'idle',
+        publicReports: 'idle'
     },
     error: {
         states: null,
         districts: null,
         calendarByDistrict: null,
-        vaccinationReports: null
+        vaccinationReports: null,
+        publicReports: null
     },
     filters: {
         keywords: [],
@@ -68,6 +71,12 @@ export const fetchVaccinationReports = createAsyncThunk('cowin/fetchVaccinationR
         return response.data
     })
 
+export const fetchPublicReports = createAsyncThunk('cowin/fetchPublicReports',
+    async ({stateId, districtId, date}) => {
+        const response = await axios.get(`https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?
+        state_id=${stateId}&district_id=${districtId}&date=${date}`);
+        return response.data
+    })
 
 export const cowinSlice = createSlice({
     name: 'cowin',
@@ -153,6 +162,15 @@ export const cowinSlice = createSlice({
         [fetchVaccinationReports.rejected]: (state, action) => {
             state.status.vaccinationReports = 'failed';
             state.error.vaccinationReports = action.error.message;
+        },
+        [fetchPublicReports.fulfilled]: (state, action) => {
+            state.status.publicReports = 'succeeded';
+            state.error.publicReports = null;
+            state.publicReports = action.payload;
+        },
+        [fetchPublicReports.rejected]: (state, action) => {
+            state.status.publicReports = 'failed';
+            state.error.publicReports = action.error.message;
         }
     },
 });
@@ -178,6 +196,9 @@ export const selectSelectedState = (state) => state.cowin.selected.stateEnt;
 export const selectSelectedDistrict = (state) => state.cowin.selected.districtEnt;
 
 export const selectVaxReportsLastThirtyDays = (state) => state.cowin.vaccinationReports.last30DaysVaccination;
+
+export const selectPublicReports = (state) => state.cowin.publicReports;
+export const selectPublicReportsBeneficiaries = (state) => state.cowin.publicReports.getBeneficiariesGroupBy;
 
 export const selectKeywordFilteredCalendarByDistrict = createSelector(
     selectCalendarByDistrict,

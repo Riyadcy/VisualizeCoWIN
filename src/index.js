@@ -5,6 +5,7 @@ import App from './App';
 import {store} from "./app/store";
 import {Provider} from "react-redux";
 import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/table/lib/css/table.css";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
