@@ -1,9 +1,16 @@
 import {useDispatch, useSelector} from "react-redux";
 import {
     fetchCalendarByDistrict,
-    fetchDistricts, fetchStates,
+    fetchDistricts,
+    fetchStates,
     resetCalendarByDistrictStore,
-    resetDistrictStore, selectAllStates
+    resetDistrictStore,
+    selectAllDistricts,
+    selectAllStates,
+    selectSelectedDistrict,
+    selectSelectedState,
+    setSelectedDistrict,
+    setSelectedState
 } from "../Cowin/cowinSlice";
 import {Button, MenuItem} from "@blueprintjs/core";
 import {Select} from "@blueprintjs/select";
@@ -33,8 +40,8 @@ const filterList = (query, title, _index, exactMatch) => {
 *  differences through props.
 *
 * */
-const StateSelector = (props) => {
-    const { selectedState, setSelectedState, setSelectedDistrict } = props
+const StateSelector = () => {
+    const selectedState = useSelector(selectSelectedState);
     const dispatch = useDispatch();
     const statesFetchStatus = useSelector((state) => state.cowin.status.states);
     const states = useSelector(selectAllStates);
@@ -54,11 +61,11 @@ const StateSelector = (props) => {
         // Reset the current District and Center list by resetting the store
         dispatch(resetDistrictStore());
         dispatch(resetCalendarByDistrictStore());
-        setSelectedState(state);
+        dispatch(setSelectedState({stateId: state.state_id, stateName: state.state_name}));
         // Fetch new districts for the new State
         dispatch(fetchDistricts({stateId: state.state_id}));
         // Reset the District selector value
-        setSelectedDistrict({district_name: "Select a district"});
+        dispatch(setSelectedDistrict({districtName: "Select a District"}))
     }
 
     // Render a Blueprintjs Menu Item for every state
@@ -86,7 +93,7 @@ const StateSelector = (props) => {
                 itemPredicate={filterStates}
                 noResults={<MenuItem disabled={true} text="No results." />}
             >
-                <Button text={selectedState.state_name} rightIcon="caret-down" />
+                <Button text={selectedState.stateName} rightIcon="caret-down" />
             </Select>
         </div>
     )
@@ -97,9 +104,10 @@ const StateSelector = (props) => {
 * provides a list of districts to filter and choose from.
 *
 * */
-const DistrictSelector = (props) => {
-    const { districts, selectedDistrict, setSelectedDistrict } = props;
+const DistrictSelector = () => {
     const dispatch = useDispatch();
+    const districts = useSelector(selectAllDistricts);
+    const selectedDistrict = useSelector(selectSelectedDistrict);
 
     const renderDistrictInputValue = (district) => district.district_name;
 
@@ -112,7 +120,7 @@ const DistrictSelector = (props) => {
     // Creates the Date string in required CoWIN API format (dd-mm-yy) using formatDate from DateUtilities, then
     // dispatches the action to fetch the "calendar by district" using the district_id of the selected district.
     const districtSelected = (district, _event) => {
-        setSelectedDistrict(district);
+        dispatch(setSelectedDistrict({districtId: district.district_id, districtName: district.district_name}))
         let date = new Date();
         date = formatDate(date, '-');
         dispatch(fetchCalendarByDistrict({districtId: district.district_id, date: date}));
@@ -136,7 +144,7 @@ const DistrictSelector = (props) => {
                 itemPredicate={filterDistricts}
                 noResults={<MenuItem disabled={true} text="No results." />}
             >
-                <Button text={selectedDistrict.district_name} rightIcon="caret-down" />
+                <Button text={selectedDistrict.districtName} rightIcon="caret-down" />
             </Select>
         </div>
     )

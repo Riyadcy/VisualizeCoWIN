@@ -4,6 +4,16 @@ import axios from "axios"
 const initialState = {
     states: [],
     districts: [],
+    selected: {
+        stateEnt: {
+            stateName: "Select a State",
+            stateId: null
+        },
+        districtEnt: {
+            districtName: "Select a District",
+            districtId: null
+        },
+    },
     calendarByDistrict: {
         centers: []
     },
@@ -69,6 +79,26 @@ export const cowinSlice = createSlice({
         resetCalendarByDistrictStore: (state) => {
             state.calendarByDistrict = { centers: [] };
         },
+        setSelectedState: (state, action) => {
+            const { stateName } = action.payload;
+            state.selected.stateEnt.stateName = stateName;
+            if (action.payload.stateId) {
+                state.selected.stateEnt.stateId = action.payload.stateId;
+            }
+            else {
+                state.selected.stateEnt.stateId = null;
+            }
+        },
+        setSelectedDistrict: (state, action) => {
+            const { districtName } = action.payload;
+            state.selected.districtEnt.districtName = districtName;
+            if (action.payload.districtId) {
+                state.selected.districtEnt.districtId = action.payload.districtId;
+            }
+            else {
+                state.selected.districtEnt.districtId = null
+            }
+        },
         setFeeFilter: (state, action) => {
             const { feeType, typeSelected } = action.payload;
             state.filters.feeType[feeType] = typeSelected;
@@ -129,7 +159,13 @@ export const cowinSlice = createSlice({
 
 
 
-export const { resetDistrictStore, resetCalendarByDistrictStore, setKeywordFilter, setFeeFilter } = cowinSlice.actions;
+export const { resetDistrictStore,
+    resetCalendarByDistrictStore,
+    setKeywordFilter,
+    setFeeFilter,
+    setSelectedState,
+    setSelectedDistrict
+} = cowinSlice.actions;
 
 export const selectCalendarByDistrict = (state) => state.cowin.calendarByDistrict.centers;
 
@@ -138,6 +174,8 @@ export const selectFeeFilters = (state) => state.cowin.filters.feeType;
 
 export const selectAllStates = (state) => state.cowin.states;
 export const selectAllDistricts = (state) => state.cowin.districts;
+export const selectSelectedState = (state) => state.cowin.selected.stateEnt;
+export const selectSelectedDistrict = (state) => state.cowin.selected.districtEnt;
 
 export const selectVaxReportsLastThirtyDays = (state) => state.cowin.vaccinationReports.last30DaysVaccination;
 

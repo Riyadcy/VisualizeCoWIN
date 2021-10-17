@@ -5,8 +5,15 @@ const settingsMap = {
     calendarByDistrictView: "SETTINGS_CALENDARBYDIST_VIEW"
 }
 
+const defaultSettings = {
+    calendarByDistrictView: "table",
+    calendarByDistrictAutoRefresh: false,
+    calendarByDistrictAutoRefreshInterval: null
+
+}
+
 const initialState = {
-    calendarByDistrictView: localStorage.getItem(settingsMap.calendarByDistrictView) || "tags",
+    calendarByDistrictView: localStorage.getItem(settingsMap.calendarByDistrictView) || defaultSettings.calendarByDistrictView,
     calendarByDistrictAutoRefresh: false,
     calendarByDistrictAutoRefreshInterval: null
 }
@@ -17,8 +24,7 @@ export const settingsSlice = createSlice({
     initialState,
     reducers: {
         resetSettings: (state, action) => {
-            state = initialState;
-            localStorage.setItem(settingsMap.calendarByDistrictView, initialState.calendarByDistrictView);
+            localStorage.setItem(settingsMap.calendarByDistrictView, defaultSettings.calendarByDistrictView);
         },
         setCalendarByDistrictView: (state, action) => {
             const { viewName } = action.payload;

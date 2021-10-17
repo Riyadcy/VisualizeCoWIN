@@ -1,10 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     fetchCalendarByDistrict,
-    selectAllDistricts,
     selectFilteredCalendarByDistrict,
-    selectKeywordFilter,
+    selectKeywordFilter, selectSelectedDistrict, selectSelectedState,
     setKeywordFilter
 } from "../Cowin/cowinSlice";
 import "./AvailableSlots.css";
@@ -25,12 +24,8 @@ export function AvailableSlots() {
     const calendarFetchStatus = useSelector((state) => state.cowin.status.calendarByDistrict);
     // Use the filtered calendarByDistrict data from the store
     const centers = useSelector(selectFilteredCalendarByDistrict);
-    const districts = useSelector(selectAllDistricts);
-    //TODO Move selected state and district to Redux store
-    // So when the user comes back to this component from a different route,
-    // it maintains state. Might need to check if it already maintains state, though.
-    const [selectedState, setSelectedState] = useState({state_name: "Select a state"});
-    const [selectedDistrict, setSelectedDistrict] = useState({district_name: "Select a district"})
+    const selectedState = useSelector(selectSelectedState);
+    const selectedDistrict = useSelector(selectSelectedDistrict);
     const searchInputValues = useSelector(selectKeywordFilter);
 
     /*
@@ -87,12 +82,12 @@ export function AvailableSlots() {
 
     // Refresh button to refresh the data, doesn't reset filters
     const refreshData = () => {
-        if (selectedDistrict.district_name === "Select a district" || selectedState.state_name === "Select a state") {
+        if (selectedDistrict.districtName === "Select a District" || selectedState.stateName === "Select a State") {
             return
         }
         let date = new Date();
         date = formatDate(date, '-');
-        dispatch(fetchCalendarByDistrict({districtId: selectedDistrict.district_id, date: date}));
+        dispatch(fetchCalendarByDistrict({districtId: selectedDistrict.districtId, date: date}));
     }
 
     return (
@@ -103,16 +98,8 @@ export function AvailableSlots() {
                 </div>
                 <div className="slot-toolbar-container">
                     <div className="slot-toolbar">
-                        <StateSelector
-                            selectedState={selectedState}
-                            setSelectedState={setSelectedState}
-                            setSelectedDistrict={setSelectedDistrict}
-                        />
-                        <DistrictSelector
-                            districts={districts}
-                            selectedDistrict={selectedDistrict}
-                            setSelectedDistrict={setSelectedDistrict}
-                        />
+                        <StateSelector />
+                        <DistrictSelector />
                         <TagInput
                             className="slot-toolbar-item search"
                             leftIcon={"search"}
