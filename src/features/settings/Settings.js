@@ -11,7 +11,6 @@ function Settings(props) {
     const view = useSelector(state => state.settings.calendarByDistrictView);
     const autoRefresh = useSelector(state => state.settings.calendarByDistrictAutoRefresh);
     const autoRefreshInt = useSelector(state => state.settings.calendarByDistrictAutoRefreshInterval);
-    // const [aRefresh, setARefresh] = useState(true);
 
     const nickDisplayMap = {
         "table": "Table",
@@ -48,9 +47,14 @@ function Settings(props) {
     }
 
     // const isAutoRefreshEnabled = () => calByDist.autoRefresh;
-
+    
     return (
-        <Dialog isOpen={isOpen} canOutsideClickClose={true} onClose={handleClose}>
+        <Dialog id="settings" className="bp4-dialog"
+                isOpen={isOpen}
+                canOutsideClickClose={true}
+                onClose={handleClose}
+                usePortal={false}
+        >
             <div className="bp4-dialog-header">
                 <h4 className="bp4-heading">Settings</h4>
                 <Button

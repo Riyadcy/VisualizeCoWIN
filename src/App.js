@@ -15,6 +15,7 @@ function App() {
     const dispatch = useDispatch();
     const [themeButton, setThemeButton] = useState({name: "Dark Theme", icon: "moon"});
     const initializeSettings = !localStorage.getItem('SETTINGS')
+    const [themeButtonEnabled, setThemeButtonEnabled] = useState(true);
 
     const switchTheme = () => {
         const div = document.getElementById("app");
@@ -35,6 +36,17 @@ function App() {
         }
     })
 
+    const toggleThemeButton = (value) => {
+        setThemeButtonEnabled(value);
+        if (value === false) {
+            const div = document.getElementById("app");
+            if (div.classList.contains("bp4-dark")) {
+                div.classList.remove("bp4-dark");
+                setThemeButton({name: "Dark Theme", icon: "moon"});
+            }
+        }
+    }
+
     return (
     <BrowserRouter>
         <div id="app">
@@ -43,23 +55,29 @@ function App() {
                     <NavbarHeading className="navigation-header">VisualizeCoWIN</NavbarHeading>
                     <NavbarDivider />
                     <NavLink to="/">
-                        <Button className={Classes.MINIMAL} icon="home" text="Home"/>
+                        <Button className={Classes.MINIMAL} icon="home" text="Home"
+                                onClick={_event => toggleThemeButton(true)}/>
                     </NavLink>
                     <Link to="/dashboard">
-                        <Button className={Classes.MINIMAL} icon="chart" text="Dashboard" />
+                        <Button className={Classes.MINIMAL} icon="chart" text="Dashboard"
+                                onClick={_event => toggleThemeButton(false)}/>
                     </Link>
                     <Link to="/availability">
-                        <Button className={Classes.MINIMAL} icon="confirm" text="CoWIN Slot Checker" />
+                        <Button className={Classes.MINIMAL} icon="confirm" text="CoWIN Slot Checker"
+                                onClick={_event => toggleThemeButton(true)} />
                     </Link>
                 </NavbarGroup>
-                <NavbarGroup align={Alignment.RIGHT}>
-                    <Button
-                        className={Classes.MINIMAL}
-                        icon={themeButton.icon}
-                        text={themeButton.name}
-                        onClick={switchTheme}
-                    />
-                </NavbarGroup>
+                {
+                    themeButtonEnabled &&
+                    <NavbarGroup align={Alignment.RIGHT}>
+                        <Button
+                            className={Classes.MINIMAL}
+                            icon={themeButton.icon}
+                            text={themeButton.name}
+                            onClick={switchTheme}
+                        />
+                    </NavbarGroup>
+                }
             </Navbar>
             <div className="app-route">
                 <Switch>
