@@ -32,7 +32,7 @@ export const fetchVaxStats = createAsyncThunk('myGov/vaxStats',
 export const fetchCaseCounts = createAsyncThunk('myGov/caseCounts',
     async () => {
         const response = await axios.get('http://127.0.0.1:5000/mygov/case-counts');
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
     })
 

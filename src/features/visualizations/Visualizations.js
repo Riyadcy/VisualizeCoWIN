@@ -11,6 +11,7 @@ import {
 } from "../mygov/myGovSlice";
 import {H1, H2, H3, H4, H5, Intent, Tag} from "@blueprintjs/core";
 import FlipNumbers from 'react-flip-numbers';
+import {VaxLastThirtyDays} from "./VaxLastThirtyDays";
 
 export function Visualizations() {
     const dispatch = useDispatch();
@@ -31,13 +32,13 @@ export function Visualizations() {
         }
     }, [vaxLiveCountFetchStatus, dispatch])
 
-    // useEffect(() => {
-    //     const timer = setTimeout(
-    //         () => dispatch(fetchVaxLiveCount()),
-    //         5000
-    //     );
-    //     return () => clearTimeout(timer);
-    // })
+    useEffect(() => {
+        const timer = setTimeout(
+            () => dispatch(fetchVaxLiveCount()),
+            5000
+        );
+        return () => clearTimeout(timer);
+    })
 
     useEffect(() => {
         if (vaxStatsFetchStatus === "idle") {
@@ -129,7 +130,7 @@ export function Visualizations() {
     }
 
     return (
-        <div className="visualizations-container bp4-card">
+        <div className="visualizations-container">
             <div className="visualization-hero">
                 <div className="hero-content">
                     <span className="hero-header">Live Vaccination Count</span>
@@ -150,6 +151,9 @@ export function Visualizations() {
                 {vaccinationStatsEl}
                 {caseCountEl}
                 {totalCaseCountEl}
+            </div>
+            <div className="charts">
+                <VaxLastThirtyDays />
             </div>
         </div>
     )

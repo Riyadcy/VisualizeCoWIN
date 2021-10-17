@@ -7,15 +7,18 @@ const initialState = {
     calendarByDistrict: {
         centers: []
     },
+    vaccinationReports: {},
     status: {
         states: 'idle',
         districts: 'idle',
-        calendarByDistrict: 'idle'
+        calendarByDistrict: 'idle',
+        vaccinationReports: 'idle'
     },
     error: {
         states: null,
         districts: null,
-        calendarByDistrict: null
+        calendarByDistrict: null,
+        vaccinationReports: null
     },
     filters: {
         keywords: [],
@@ -47,6 +50,13 @@ export const fetchDistricts = createAsyncThunk('cowin/fetchDistricts',
         `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${stateId}`);
     return response.data;
 });
+
+export const fetchVaccinationReports = createAsyncThunk('cowin/fetchVaccinationReports',
+    async ({stateId, districtId, date}) => {
+        const response = await axios.get(`https://api.cowin.gov.in/api/v1/reports/v2/getVacPublicReports?
+        state_id=${stateId}&district_id=${districtId}&date=${date}`);
+        return response.data
+    })
 
 
 export const cowinSlice = createSlice({
@@ -105,6 +115,15 @@ export const cowinSlice = createSlice({
             state.status.districts = 'failed';
             state.error.districts = action.error.message;
         },
+        [fetchVaccinationReports.fulfilled]: (state, action) => {
+            state.status.vaccinationReports = 'succeeded';
+            state.error.vaccinationReports = null;
+            state.vaccinationReports = action.payload;
+        },
+        [fetchVaccinationReports.rejected]: (state, action) => {
+            state.status.vaccinationReports = 'failed';
+            state.error.vaccinationReports = action.error.message;
+        }
     },
 });
 
@@ -119,6 +138,8 @@ export const selectFeeFilters = (state) => state.cowin.filters.feeType;
 
 export const selectAllStates = (state) => state.cowin.states;
 export const selectAllDistricts = (state) => state.cowin.districts;
+
+export const selectVaxReportsLastThirtyDays = (state) => state.cowin.vaccinationReports.last30DaysVaccination;
 
 export const selectKeywordFilteredCalendarByDistrict = createSelector(
     selectCalendarByDistrict,

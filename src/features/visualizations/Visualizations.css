@@ -55,3 +55,12 @@
 .total-vax-count {
     color: #30A660 !important;
 }
+
+.charts {
+    margin: 50px;
+}
+
+.chart-1 {
+    width: 80%;
+    height: 400px;
+}

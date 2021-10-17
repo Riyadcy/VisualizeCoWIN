@@ -1,7 +1,7 @@
 import React from "react";
 import Particles from "react-particles-js";
 import "./Home.css"
-import {Button, ButtonGroup, Classes, H1, Intent} from "@blueprintjs/core";
+import {Button, ButtonGroup, Intent} from "@blueprintjs/core";
 import {Link} from "react-router-dom";
 
 export function Home() {
@@ -30,7 +30,7 @@ export function Home() {
                 params={{
                     "particles": {
                         "number": {
-                            "value": 100
+                            "value": 120
                         },
                         "size": {
                             "value": 3
