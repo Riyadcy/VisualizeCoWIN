@@ -7,6 +7,11 @@ import {Home} from "./features/home/Home";
 import {Visualizations} from "./features/visualizations/Visualizations";
 import {resetSettings} from "./features/settings/settingsSlice";
 import {useDispatch} from "react-redux";
+// import Chart from './features/chartjs/Pie'
+// import Ward from './features/chartjs/Ward'
+// import Rate from './features/chartjs/Rate'
+import {Charts} from './features/chartjs/ChartJS'
+
 
 
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -62,6 +67,24 @@ function App() {
                         <Button className={Classes.MINIMAL} icon="chart" text="Dashboard"
                                 onClick={_event => toggleThemeButton(false)}/>
                     </Link>
+
+                    <NavLink to="/ChartJS">
+                        <Button className={Classes.MINIMAL} icon="grouped-bar-chart" text="Charts"
+                                onClick={_event => toggleThemeButton(true)}/>
+                    </NavLink>
+                    {/* <NavLink to="/charts">
+                        <Button className={Classes.MINIMAL} icon="chart" text="Charts"
+                                onClick={_event => toggleThemeButton(true)}/>
+                    </NavLink>
+                    <NavLink to="/ward">
+                        <Button className={Classes.MINIMAL} icon="chart" text="Ward"
+                                onClick={_event => toggleThemeButton(true)}/>
+                    </NavLink>
+                    <NavLink to="/rate">
+                        <Button className={Classes.MINIMAL} icon="chart" text="Rate"
+                                onClick={_event => toggleThemeButton(true)}/>
+                    </NavLink> */}
+
                     <Link to="/availability">
                         <Button className={Classes.MINIMAL} icon="confirm" text="CoWIN Slot Checker"
                                 onClick={_event => toggleThemeButton(true)} />
@@ -87,6 +110,19 @@ function App() {
                     <Route path="/dashboard">
                         <Visualizations />
                     </Route>
+                    <Route path="/ChartJS">
+                        <Charts />
+                    </Route>
+                    {/* <Route path="/charts">
+                        <Chart />
+                    </Route>
+                    <Route path="/ward">
+                        <Ward />
+                    </Route>
+                    <Route path="/rate">
+                        <Rate legendPosition='bottom' />
+                    </Route> */}
+
                     <Route path="/">
                         <Home />
                     </Route>
