@@ -36,7 +36,7 @@ function VaccineDistribution() {
                 {
                     label: 'Vaccine',
                     data: [vaccineDistribution.covishield, vaccineDistribution.covaxin, vaccineDistribution.sputnik],
-                    backgroundColor: ["#2684a6", "#a64626", "#399e54"],
+                    backgroundColor: ["#64c2a7", "#40a1e3", "#be9ffa"],
                 },
             ],
         };
@@ -48,7 +48,7 @@ function VaccineDistribution() {
                 {
                     label: 'Age',
                     data: [vaccineDistribution.male, vaccineDistribution.female, vaccineDistribution.others],
-                    backgroundColor: ["#2d87bb", "#aadea7", "#399e54"]
+                    backgroundColor: ["#4ec2f7", "#f76685", "#f8d178"]
                 }
             ]
         }
